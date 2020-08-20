@@ -13,6 +13,7 @@ class CPU:
             'LDI': 0b10000010,
             'PRN': 0b01000111,
             'HLT': 0b00000001,
+            'MUL': 0b10100010
         }
 
     def load(self):
@@ -44,6 +45,8 @@ class CPU:
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
         #elif op == "SUB": etc
+        elif op == "MUL":
+            self.reg[reg_a] *= self.reg[reg_b]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -82,7 +85,8 @@ class CPU:
                 self.pc += 2
             elif IR == self.instructions['PRN']:
                 print(self.reg[operand_a])
-                self.pc += 1
+            elif IR == self.instructions['MUL']:
+                self.alu('MUL', operand_a, operand_b)
             elif IR == self.instructions['HLT']:
                 halted = True
 
